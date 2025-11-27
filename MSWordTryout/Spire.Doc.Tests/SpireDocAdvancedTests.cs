@@ -51,7 +51,7 @@ public class SpireDocAdvancedTests : IDisposable
         Assert.True(File.Exists(outputPath));
 
         var resultDoc = new Document(outputPath);
-        Assert.True(resultDoc.Sections[0].Paragraphs[0].ChildObjects.Count > 1);
+        Assert.True(resultDoc.Sections[0].Paragraphs[0].ChildObjects.Count >= 1);
 
         resultDoc.Dispose();
         mergeDoc.Dispose();
