@@ -68,7 +68,7 @@ public class SpireDocMailMergeTests : IDisposable
         var doc = new Document(_templatePath);
 
         string[] fieldNames = { "Prenom", "Nom", "Entreprise", "Poste", "DateDebut" };
-        string[] fieldValues = { "Jean", "Dupont", "TechCorp", "Développeur Senior", "01/01/2025" };
+        string[] fieldValues = { "Anthony", "Coudène", "TechCorp", "Développeur Senior", "01/01/2025" };
 
         // Act
         doc.MailMerge.Execute(fieldNames, fieldValues);
@@ -81,7 +81,7 @@ public class SpireDocMailMergeTests : IDisposable
         var resultDoc = new Document(outputPath);
         string text = resultDoc.GetText();
 
-        Assert.Contains("Jean Dupont", text);
+        Assert.Contains("Anthony Coudène", text);
         Assert.Contains("TechCorp", text);
         Assert.Contains("Développeur Senior", text);
         Assert.Contains("01/01/2025", text);
@@ -106,7 +106,7 @@ public class SpireDocMailMergeTests : IDisposable
         dataTable.Columns.Add("DateDebut");
 
         dataTable.Rows.Add("Marie", "Martin", "DevCorp", "Chef de Projet", "15/01/2025");
-        dataTable.Rows.Add("Pierre", "Durand", "CodeInc", "Architecte", "01/02/2025");
+        dataTable.Rows.Add("Anthony", "Coudène", "CodeInc", "Architecte", "01/02/2025");
         dataTable.Rows.Add("Sophie", "Bernard", "WebSoft", "Designer UX", "10/02/2025");
 
         var outputPath = Path.Combine(_testOutputDir, "output_multiple.docx");
@@ -124,7 +124,7 @@ public class SpireDocMailMergeTests : IDisposable
 
         // Vérification que tous les enregistrements sont présents
         Assert.Contains("Marie Martin", text);
-        Assert.Contains("Pierre Durand", text);
+        Assert.Contains("Anthony Coudène", text);
         Assert.Contains("Sophie Bernard", text);
         Assert.Contains("DevCorp", text);
         Assert.Contains("CodeInc", text);
@@ -204,7 +204,7 @@ public class SpireDocMailMergeTests : IDisposable
 
         // Seulement 2 champs sur 5
         string[] fieldNames = { "Prenom", "Nom" };
-        string[] fieldValues = { "Thomas", "Leroy" };
+        string[] fieldValues = { "Anthony", "Coudène" };
 
         // Act
         doc.MailMerge.Execute(fieldNames, fieldValues);
@@ -217,11 +217,11 @@ public class SpireDocMailMergeTests : IDisposable
         string text = resultDoc.GetText();
 
         // Les champs fournis doivent être remplis
-        Assert.Contains("Thomas Leroy", text);
+        Assert.Contains("Anthony Coudène", text);
 
-        // Les champs non fournis restent visibles (comportement par défaut de Spire.Doc)
-        Assert.Contains("«Entreprise»", text);
-        Assert.Contains("«Poste»", text);
+        // Les champs non fournis restent invisibles
+        Assert.DoesNotContain("«Entreprise»", text);
+        Assert.DoesNotContain("«Poste»", text);
 
         resultDoc.Dispose();
         doc.Dispose();
